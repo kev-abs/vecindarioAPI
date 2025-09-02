@@ -31,5 +31,17 @@ public class ConexionServiceUsuario {
 
     }
 
+    public void agregarUsuario(Usuario usuario) {
+        String sql = "INSERT INTO usuario" +
+            "(id, nombre, email, direccion, password, rol)" +"VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+            usuario.getId(),
+            usuario.getNombre(),
+            usuario.getEmail(),
+            usuario.getDireccion(),
+            usuario.getPassword()
+        );
+    }
+
 }
 

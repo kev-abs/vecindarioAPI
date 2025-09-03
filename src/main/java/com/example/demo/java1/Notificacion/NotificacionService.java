@@ -1,45 +1,52 @@
 package com.example.demo.java1.Notificacion;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class NotificacionService {
 
-    private final List<NotificacionDTO> notificaciones = new ArrayList<>();
+    private final JdbcTemplate jdbcTemplate;
 
-    // Obtener todas
+    public NotificacionService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    // Listar todas las notificaciones
     public List<NotificacionDTO> obtenerNotificaciones() {
-        return notificaciones;
+        String sql = "SELECT * FROM notificacion ORDER BY fecha DESC";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(NotificacionDTO.class));
     }
 
-    // Insertar
-    public int insertarNotificacion(String mensaje, LocalDateTime fecha) {
-        NotificacionDTO n = new NotificacionDTO();
-        n.setId(notificaciones.size() + 1);
-        n.setMensaje(mensaje);
-        n.setFecha(fecha);
-        notificaciones.add(n);
-        return 1; // simula que se insertó
+    // Crear notificación
+    public int insertarNotificacion(NotificacionDTO notificacion) {
+        String sql = "INSERT INTO notificacion (mensaje, fecha, usuario_id, aviso_id) VALUES (?, ?, ?, ?)";
+        return jdbcTemplate.update(sql,
+                notificacion.getMensaje(),
+                notificacion.getFecha(),
+                notificacion.getUsuarioId(),
+                notificacion.getAvisoId()
+        );
     }
 
-    // Actualizar
-    public int actualizarNotificacion(int id, String mensaje, LocalDateTime fecha) {
-        for (NotificacionDTO n : notificaciones) {
-            if (n.getId() == id) {
-                n.setMensaje(mensaje);
-                n.setFecha(fecha);
-                return 1; // actualizado
-            }
-        }
-        return 0; // no encontrado
+    // Actualizar notificación
+    public int actualizarNotificacion(NotificacionDTO notificacion) {
+        String sql = "UPDATE notificacion SET mensaje = ?, fecha = ?, usuario_id = ?, aviso_id = ? WHERE id = ?";
+        return jdbcTemplate.update(sql,
+                notificacion.getMensaje(),
+                notificacion.getFecha(),
+                notificacion.getUsuarioId(),
+                notificacion.getAvisoId(),
+                notificacion.getId()
+        );
     }
 
-    // Eliminar
+    // Eliminar notificación
     public int eliminarNotificacion(int id) {
-        return notificaciones.removeIf(n -> n.getId() == id) ? 1 : 0;
+        String sql = "DELETE FROM notificacion WHERE id = ?";
+        return 0;
     }
 }

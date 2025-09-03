@@ -20,4 +20,11 @@ Json logueo
   "password": "admin"
 }
 
+json comentarios
+{
+    "contenido": "yo encontre el gato miauuuuu",
+    "aviso_id":1,
+    "usuario_id":5
+}
+
 >>>>>>> 387f054cdc9f0203baf3f3e9de1d2044e43e686a

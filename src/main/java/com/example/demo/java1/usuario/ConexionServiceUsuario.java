@@ -47,4 +47,25 @@ public class ConexionServiceUsuario {
         String sql = "Insert into usuario (nombre, email, direccion, password, rol) values (?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql, usuario.getNombre(), usuario.getEmail(), usuario.getDireccion(), usuario.getPassword(), usuario.getRol());
     }
+
+    // Actualizar usuario por ID
+    public int actualizarUsuario(Usuario usuario) {
+        String sql = "UPDATE usuario SET nombre = ?, email = ?, direccion = ?, password = ?, rol = ? WHERE id = ?";
+        return jdbcTemplate.update(sql,
+                usuario.getNombre(),
+                usuario.getEmail(),
+                usuario.getDireccion(),
+                usuario.getPassword(),
+                usuario.getRol(),
+                usuario.getId()
+        );
+    }
+
+    // Eliminar usuario por ID
+    public int eliminarUsuario(int id) {
+        String sql = "DELETE FROM usuario WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
+
+
 }

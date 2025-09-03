@@ -1,18 +1,8 @@
 POST Notificacion
 {
-<<<<<<< HEAD
   "titulo": "Recordatorio",
   "mensaje": "Tienes una reunión a las 10 AM"
 }
-=======
-  "nombre": "Camiseta Oversize Negra",
-  "descripcion": "Camiseta en algodón 100%, corte oversize",
-  "precio": 59990.0,
-  "stock": 50,
-  "idProveedor": 2,
-  "imagen": "camiseta_negra.jpg",
-  "estado": "Activo
-  }
 
 Json logueo
 {
@@ -26,5 +16,11 @@ json comentarios
     "aviso_id":1,
     "usuario_id":5
 }
+{
+  "nombre": "Juan Garcia",
+  "email": "juangarcia@gmail.com",
+  "direccion": "cra34 #55-30",
+  "password": "zpex235",
+  "rol": "VECINO"
 
->>>>>>> 387f054cdc9f0203baf3f3e9de1d2044e43e686a
+}

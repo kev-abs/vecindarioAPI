@@ -1,9 +1,7 @@
 package com.example.demo.java1.usuario;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
@@ -12,36 +10,41 @@ import java.util.List;
 
 @Service
 public class ConexionServiceUsuario {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<String> obtenerUsuario() {
+    // Obtener lista de usuarios
+    public List<Usuario> obtenerUsuarios() {
         String sql = "SELECT * FROM usuario";
-        return jdbcTemplate.query(sql, new RowMapper<String>() {
-            @Override
-            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-                return rs.getString("id") + " " +
-                        rs.getString("nombre") + " " +
-                        rs.getString("email") + " " +
-                        rs.getString("direccion") + " " +
-                        rs.getString("password") + " " +
-                        rs.getString("rol");
-            }
-        });
-
+        return jdbcTemplate.query(sql, (rs, rowNum) -> mapUsuario(rs));
     }
 
-    public void agregarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuario" +
-            "(id, nombre, email, direccion, password, rol)" +"VALUES (?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-            usuario.getId(),
-            usuario.getNombre(),
-            usuario.getEmail(),
-            usuario.getDireccion(),
-            usuario.getPassword()
-        );
+
+    // Login (validar email y password)
+    public Usuario login(String email, String password) {
+        String sql = "SELECT * FROM usuario WHERE email = ? AND password = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{email, password}, (rs, rowNum) -> mapUsuario(rs));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
+    // Mapeo ResultSet → Usuario
+    private Usuario mapUsuario(ResultSet rs) throws SQLException {
+        Usuario usuario = new Usuario();
+        usuario.setId((int) rs.getLong("id"));
+        usuario.setNombre(rs.getString("nombre"));
+        usuario.setEmail(rs.getString("email"));
+        usuario.setDireccion(rs.getString("direccion"));
+        usuario.setPassword(rs.getString("password"));
+        usuario.setRol(rs.getString("rol"));
+        return usuario;
+    }
+    //Post registro
+    public int insertarUsuarios(Usuario usuario) {
+        String sql = "Insert into usuario (nombre, email, direccion, password, rol) values (?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, usuario.getNombre(), usuario.getEmail(), usuario.getDireccion(), usuario.getPassword(), usuario.getRol());
+    }
 }
-

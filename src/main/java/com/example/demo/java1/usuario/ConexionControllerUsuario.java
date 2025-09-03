@@ -1,27 +1,36 @@
 package com.example.demo.java1.usuario;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/usuario")
 public class ConexionControllerUsuario {
+
     @Autowired
     private ConexionServiceUsuario conexionServiceUsuario;
 
-    @GetMapping("/usuario")
-    public List<String> obtenerUsuario() {return conexionServiceUsuario.obtenerUsuario();}
+    // GET → Listar usuarios como JSON
+    @GetMapping
+    public List<Usuario> obtenerUsuarios() {
+        return conexionServiceUsuario.obtenerUsuarios();
 
-    @PostMapping("/usuario")
-    public String agregarCupon(@RequestBody Usuario usuario){
-        conexionServiceUsuario.agregarUsuario(usuario);
-        return "Usuario agregado";
     }
 
+    // POST → Login
+    @PostMapping("/login")
+    public Object login(@RequestBody Usuario loginRequest) {
+        Usuario usuario = conexionServiceUsuario.login(loginRequest.getEmail(), loginRequest.getPassword());
+        if (usuario != null) {
+            return usuario; // Devuelve JSON con los datos del usuario
+        } else {
+            return "Credenciales inválidas";
+        }
+    }
+    @PostMapping
+    public Usuario registrarUsuario(@RequestBody Usuario usuario) {
+        int filas = conexionServiceUsuario.insertarUsuarios(usuario);
+        return usuario;
+    }
 }
-

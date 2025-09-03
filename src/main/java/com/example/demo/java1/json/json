@@ -16,6 +16,8 @@ json comentarios
     "aviso_id":1,
     "usuario_id":5
 }
+
+json usuario
 {
   "nombre": "Juan Garcia",
   "email": "juangarcia@gmail.com",

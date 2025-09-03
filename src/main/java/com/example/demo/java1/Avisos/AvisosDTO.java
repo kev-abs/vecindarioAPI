@@ -1,10 +1,20 @@
 package com.example.demo.java1.Avisos;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class AvisosDTO {
-    public AvisosDTO(Integer id, String titulo, String descripcion, String categoria, String estado, LocalDate fechaCreacion, Integer usuarioId) {
+    private Integer id;
+    private String titulo;
+    private String descripcion;
+    private String categoria; // AYUDA, ALERTA, COMPRAS, REUNIONES
+    private String estado;    // ACTIVO, ATENDIDO, ELIMINADO
+    private LocalDateTime fechaCreacion;
+    private Integer usuarioId;
+
+    public AvisosDTO() {}
+
+    public AvisosDTO(Integer id, String titulo, String descripcion, String categoria,
+                     String estado, LocalDateTime fechaCreacion, Integer usuarioId) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -13,17 +23,6 @@ public class AvisosDTO {
         this.fechaCreacion = fechaCreacion;
         this.usuarioId = usuarioId;
     }
-
-    private Integer id;
-    private String titulo;
-    private String descripcion;
-    private String categoria; // ayuda, alertas, compras, reuniones
-    private String estado;    // activo, atendido, eliminado
-    private LocalDate fechaCreacion;
-    private Integer usuarioId;
-
-    public AvisosDTO() {}
-
 
     // Getters y Setters
     public Integer getId() { return id; }
@@ -41,8 +40,8 @@ public class AvisosDTO {
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
 
-    public LocalDate getFechaCreacion() { return fechaCreacion; }
-    public void setFechaCreacion(LocalDate fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+    public LocalDateTime getFechaCreacion() { return fechaCreacion; }
+    public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
     public Integer getUsuarioId() { return usuarioId; }
     public void setUsuarioId(Integer usuarioId) { this.usuarioId = usuarioId; }

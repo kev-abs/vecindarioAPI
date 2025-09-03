@@ -1,10 +1,8 @@
 POST Notificacion
 {
-<<<<<<< HEAD
   "titulo": "Recordatorio",
   "mensaje": "Tienes una reunión a las 10 AM"
 }
-=======
   "nombre": "Camiseta Oversize Negra",
   "descripcion": "Camiseta en algodón 100%, corte oversize",
   "precio": 59990.0,
@@ -19,5 +17,3 @@ Json logueo
   "email": "admin@mail.com",
   "password": "admin"
 }
-
->>>>>>> 387f054cdc9f0203baf3f3e9de1d2044e43e686a

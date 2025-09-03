@@ -28,4 +28,9 @@ public class ConexionControllerUsuario {
             return "Credenciales inválidas";
         }
     }
+    @PostMapping
+    public Usuario registrarUsuario(@RequestBody Usuario usuario) {
+        int filas = conexionServiceUsuario.insertarUsuarios(usuario);
+        return usuario;
+    }
 }

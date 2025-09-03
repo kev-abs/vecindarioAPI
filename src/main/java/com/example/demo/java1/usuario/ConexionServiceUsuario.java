@@ -41,4 +41,9 @@ public class ConexionServiceUsuario {
         usuario.setRol(rs.getString("rol"));
         return usuario;
     }
+    //Post registro
+    public int insertarUsuarios(Usuario usuario) {
+        String sql = "Insert into usuario (nombre, email, direccion, password, rol) values (?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, usuario.getNombre(), usuario.getEmail(), usuario.getDireccion(), usuario.getPassword(), usuario.getRol());
+    }
 }

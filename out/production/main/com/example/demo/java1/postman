@@ -1,0 +1,21 @@
+proveedor
+{
+  "nombre_Empresa": "Suministros XYZ",
+  "contacto": "Hernan Garcia",
+  "telefono": 3001234567,
+  "correo": "Hernan@xyz.com",
+  "direccion": "Calle 45 #12-34, Bogotá"
+}
+
+cupon
+{
+  "codigo": "A1",
+  "descuento": 30,
+  "fecha_Expiracion": "2025-08-29"
+}
+
+cupon_cliente
+{
+  "ID_Cliente": 1,
+  "ID_Cupon": 1
+}

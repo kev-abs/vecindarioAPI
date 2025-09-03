@@ -7,19 +7,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/notificaciones")
 public class NotificacionController {
 
     @Autowired
     private NotificacionService conexionService;
 
     // Listar notificaciones
-    @GetMapping("/notificaciones")
+    @GetMapping
     public List<NotificacionDTO> listarNotificaciones() {
         return conexionService.obtenerNotificaciones();
     }
 
     // Crear notificación
-    @PostMapping("/notificaciones")
+    @PostMapping
     public String crearNotificacion(@RequestBody NotificacionDTO notificacion) {
         if (notificacion.getMensaje() == null || notificacion.getMensaje().trim().isEmpty()) {
             return "Error: El mensaje no puede estar vacío";
@@ -34,7 +35,7 @@ public class NotificacionController {
     }
 
     // Actualizar notificación
-    @PutMapping("/notificaciones/{id}")
+    @PutMapping("/{id}")
     public String actualizarNotificacion(@PathVariable int id, @RequestBody NotificacionDTO notificacion) {
         int filas = conexionService.actualizarNotificacion(
                 id,
@@ -46,7 +47,7 @@ public class NotificacionController {
     }
 
     // Eliminar notificación
-    @DeleteMapping("/notificaciones/{id}")
+    @DeleteMapping("/{id}")
     public String eliminarNotificacion(@PathVariable int id) {
         int filas = conexionService.eliminarNotificacion(id);
         return (filas > 0)

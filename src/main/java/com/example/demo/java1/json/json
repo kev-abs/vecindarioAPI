@@ -1,8 +1,11 @@
 json Notificacion
 {
-  "titulo": "Recordatorio",
-  "mensaje": "Tienes una reunión a las 10 AM"
+  "mensaje": "Reunión vecinal este viernes a las 6 PM en el salón comunal",
+  "fecha": "2025-09-02T18:00:00",
+  "usuarioId": 4,
+  "avisoId": 3
 }
+
 
 Json logueo
 {

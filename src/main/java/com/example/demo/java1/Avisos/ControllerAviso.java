@@ -13,13 +13,11 @@ public class ControllerAviso {
     @Autowired
     private ServiceAviso serviceAviso;
 
-    // GET /api/avisos -> listar todos
     @GetMapping
     public List<AvisosDTO> listarAvisos() {
         return serviceAviso.obtenerAvisos();
     }
 
-    // GET /api/avisos/{id} -> obtener por id
     @GetMapping("/{id}")
     public ResponseEntity<AvisosDTO> obtenerPorId(@PathVariable int id) {
         AvisosDTO a = serviceAviso.obtenerAvisoPorId(id);
@@ -27,7 +25,6 @@ public class ControllerAviso {
         return ResponseEntity.ok(a);
     }
 
-    // POST /api/avisos -> crear aviso
     @PostMapping
     public ResponseEntity<String> crearAviso(@RequestBody AvisosDTO aviso) {
         int filas = serviceAviso.insertarAviso(aviso);
@@ -35,7 +32,6 @@ public class ControllerAviso {
                 ResponseEntity.status(500).body("Error al crear aviso");
     }
 
-    // PUT /api/avisos/{id} -> actualizar aviso
     @PutMapping("/{id}")
     public ResponseEntity<String> actualizarAviso(@PathVariable int id, @RequestBody AvisosDTO aviso) {
         int filas = serviceAviso.actualizarAviso(id, aviso);
@@ -43,7 +39,7 @@ public class ControllerAviso {
                 ResponseEntity.status(404).body("Aviso no encontrado o sin cambios");
     }
 
-    // PATCH /api/avisos/{id}/atender -> marcar como atendido
+    // Marcar como atendido
     @PatchMapping("/{id}/atender")
     public ResponseEntity<String> atenderAviso(@PathVariable int id) {
         int filas = serviceAviso.marcarAtendido(id);
@@ -51,7 +47,6 @@ public class ControllerAviso {
                 ResponseEntity.status(404).body("Aviso no encontrado");
     }
 
-    // DELETE /api/avisos/{id} -> eliminar
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarAviso(@PathVariable int id) {
         int filas = serviceAviso.eliminarAviso(id);

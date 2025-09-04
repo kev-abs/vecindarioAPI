@@ -12,7 +12,7 @@ public class ConexionControllerUsuario {
     @Autowired
     private ConexionServiceUsuario conexionServiceUsuario;
 
-    // GET → Listar usuarios como JSON
+    // Listar usuarios como JSON
     @GetMapping
     public List<Usuario> obtenerUsuarios() {
         return conexionServiceUsuario.obtenerUsuarios();
@@ -34,7 +34,6 @@ public class ConexionControllerUsuario {
         return usuario;
     }
 
-    // PUT → Actualizar usuario
     @PutMapping("/{id}")
     public String actualizarUsuario(@PathVariable int id, @RequestBody Usuario usuario) {
         usuario.setId(id); // Asegurar que el ID del path se use
@@ -42,7 +41,6 @@ public class ConexionControllerUsuario {
         return filas > 0 ? "Usuario actualizado correctamente" : "No se pudo actualizar el usuario";
     }
 
-    // DELETE → Eliminar usuario
     @DeleteMapping("/{id}")
     public String eliminarUsuario(@PathVariable int id) {
         int filas = conexionServiceUsuario.eliminarUsuario(id);

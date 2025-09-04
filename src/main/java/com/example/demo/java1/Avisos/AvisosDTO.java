@@ -7,7 +7,7 @@ public class AvisosDTO {
     private String titulo;
     private String descripcion;
     private String categoria; // AYUDA, ALERTA, COMPRAS, REUNIONES
-    private String estado;    // ACTIVO, ATENDIDO, ELIMINADO
+    private String estado;    // ACTIVO, ATENDIDO
     private LocalDateTime fechaCreacion;
     private Integer usuarioId;
 

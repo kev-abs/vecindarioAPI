@@ -1,6 +1,5 @@
 package com.example.demo.java1.Notificacion;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,45 +10,44 @@ import java.util.List;
 public class NotificacionController {
 
     @Autowired
-    private NotificacionService conexionService;
+    private NotificacionService notificacionService;
 
-    // Listar notificaciones
+    // Obtener todas las notificaciones
     @GetMapping
     public List<NotificacionDTO> listarNotificaciones() {
-        return conexionService.obtenerNotificaciones();
+        return notificacionService.obtenerNotificaciones();
     }
 
-    // Crear notificación
+    // Crear nueva notificación
     @PostMapping
     public String crearNotificacion(@RequestBody NotificacionDTO notificacion) {
         if (notificacion.getMensaje() == null || notificacion.getMensaje().trim().isEmpty()) {
             return "Error: El mensaje no puede estar vacío";
         }
 
-        int filas = conexionService.insertarNotificacion(
-                notificacion.getMensaje(),
-                notificacion.getFecha()
-        );
+        int filas = notificacionService.insertarNotificacion(notificacion);
 
-        return (filas > 0) ? "Notificación agregada correctamente" : "Error al agregar notificación";
+        return (filas > 0)
+                ? "Notificación agregada correctamente"
+                : "Error al agregar notificación";
     }
 
-    // Actualizar notificación
+    // Actualizar notificación existente
     @PutMapping("/{id}")
-    public String actualizarNotificacion(@PathVariable int id, @RequestBody NotificacionDTO notificacion) {
-        int filas = conexionService.actualizarNotificacion(
-                id,
-                notificacion.getMensaje(),
-                notificacion.getFecha()
-        );
+    public String actualizarNotificacion(@PathVariable long id, @RequestBody NotificacionDTO notificacion) {
+        notificacion.setId((int) id); // asignamos el id del path al DTO
+        int filas = notificacionService.actualizarNotificacion(notificacion);
 
-        return (filas > 0) ? "Notificación actualizada correctamente" : "Notificación no encontrada o sin cambios";
+        return (filas > 0)
+                ? "Notificación actualizada correctamente"
+                : "Notificación no encontrada o sin cambios";
     }
 
-    // Eliminar notificación
+    // Eliminar notificación por ID
     @DeleteMapping("/{id}")
-    public String eliminarNotificacion(@PathVariable int id) {
-        int filas = conexionService.eliminarNotificacion(id);
+    public String eliminarNotificacion(@PathVariable long id) {
+        int filas = notificacionService.eliminarNotificacion(id);
+
         return (filas > 0)
                 ? "Notificación eliminada correctamente"
                 : "Notificación no encontrada";

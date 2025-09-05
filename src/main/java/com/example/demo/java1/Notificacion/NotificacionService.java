@@ -53,9 +53,4 @@ public class NotificacionService {
         );
     }
 
-    // Eliminar notificación por ID
-    public int eliminarNotificacion(long id) {
-        String sql = "DELETE FROM notificacion WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
-    }
 }

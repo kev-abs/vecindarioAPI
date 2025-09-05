@@ -41,10 +41,4 @@ public class ConexionControllerUsuario {
         return filas > 0 ? "Usuario actualizado correctamente" : "No se pudo actualizar el usuario";
     }
 
-    @DeleteMapping("/{id}")
-    public String eliminarUsuario(@PathVariable int id) {
-        int filas = conexionServiceUsuario.eliminarUsuario(id);
-        return filas > 0 ? "Usuario eliminado correctamente" : "No se pudo eliminar el usuario";
-    }
-
 }

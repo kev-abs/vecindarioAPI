@@ -43,13 +43,4 @@ public class NotificacionController {
                 : "Notificación no encontrada o sin cambios";
     }
 
-    // Eliminar notificación por ID
-    @DeleteMapping("/{id}")
-    public String eliminarNotificacion(@PathVariable long id) {
-        int filas = notificacionService.eliminarNotificacion(id);
-
-        return (filas > 0)
-                ? "Notificación eliminada correctamente"
-                : "Notificación no encontrada";
-    }
 }

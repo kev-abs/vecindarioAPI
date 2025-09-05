@@ -61,11 +61,5 @@ public class ConexionServiceUsuario {
         );
     }
 
-    // Eliminar usuario por ID
-    public int eliminarUsuario(int id) {
-        String sql = "DELETE FROM usuario WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
-    }
-
 
 }

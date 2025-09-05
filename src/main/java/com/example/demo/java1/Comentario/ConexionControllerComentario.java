@@ -29,10 +29,4 @@ public class ConexionControllerComentario {
         int result = service.actualizarComentario(comentario);
         return result == 1 ? "Comentario actualizado exitosamente" : "Error al actualizar comentario";
     }
-
-    @DeleteMapping("/{id}")
-    public String eliminarComentario(@PathVariable int id) {
-        int result = service.eliminarComentario(id);
-        return result == 1 ? "Comentario eliminado exitosamente" : "Error al eliminar comentario";
-    }
 }

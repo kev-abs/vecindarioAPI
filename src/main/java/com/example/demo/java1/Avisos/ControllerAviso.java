@@ -42,15 +42,9 @@ public class ControllerAviso {
     // Marcar como atendido
     @PatchMapping("/{id}/atender")
     public ResponseEntity<String> atenderAviso(@PathVariable int id) {
+
         int filas = serviceAviso.marcarAtendido(id);
         return filas > 0 ? ResponseEntity.ok("Aviso marcado como ATENDIDO") :
-                ResponseEntity.status(404).body("Aviso no encontrado");
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarAviso(@PathVariable int id) {
-        int filas = serviceAviso.eliminarAviso(id);
-        return filas > 0 ? ResponseEntity.ok("Aviso eliminado correctamente") :
                 ResponseEntity.status(404).body("Aviso no encontrado");
     }
 }

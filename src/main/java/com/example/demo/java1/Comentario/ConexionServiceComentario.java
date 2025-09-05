@@ -42,9 +42,4 @@ public class ConexionServiceComentario {
                 comentario.getId());
     }
 
-    // Eliminar comentario
-    public int eliminarComentario(int id) {
-        String sql = "DELETE FROM Comentario WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
-    }
 }

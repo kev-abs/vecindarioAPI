@@ -1,5 +1,6 @@
 package com.example.demo.java1.Avisos;
 
+import com.example.demo.java1.Sesion.Sesion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -34,17 +35,15 @@ public class ServiceAviso {
         String sql = "INSERT INTO aviso (titulo, descripcion, categoria, estado, usuario_id) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, aviso.getTitulo(), aviso.getDescripcion(), aviso.getCategoria(), aviso.getEstado(), aviso.getUsuarioId());
 
-        // Obtener el ID del aviso recién insertado
         Long avisoId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
 
-        // Consultar nombre del usuario
         String nombreUsuario = jdbcTemplate.queryForObject(
                 "SELECT nombre FROM usuario WHERE id = ?",
                 new Object[]{aviso.getUsuarioId()},
                 String.class
         );
 
-        // Crear notificación con estado (categoria) + nombre usuario + título
+        // Crear notificación en cuanto se cree un aviso
         String notiSql = "INSERT INTO notificacion (mensaje, usuario_id, aviso_id) VALUES (?, ?, ?)";
         jdbcTemplate.update(notiSql,
                 aviso.getCategoria() + " de " + nombreUsuario + ": " + aviso.getTitulo(),
@@ -57,33 +56,51 @@ public class ServiceAviso {
 
 
     public int actualizarAviso(int id, AvisosDTO aviso) {
-        String sql = "UPDATE aviso SET titulo = ?, descripcion = ?, categoria = ?, estado = ?, usuario_id = ? WHERE id = ?";
-        int filas = jdbcTemplate.update(sql,
-                aviso.getTitulo(),
-                aviso.getDescripcion(),
-                aviso.getCategoria(),
-                aviso.getEstado(),
-                aviso.getUsuarioId(),
-                aviso.getId()
-        );
+
+        if (Sesion.usuarioLogueado == null) {
+            throw new RuntimeException("Debes iniciar sesión primero");
+        }
+
+        String rolUsuario = Sesion.usuarioLogueado.getRol(); // rol del logueado
+        int filas;
+
+        if ("admin".equalsIgnoreCase(rolUsuario)) {
+            String sql = "UPDATE aviso SET titulo = ?, descripcion = ?, categoria = ?, estado = ?, usuario_id = ? WHERE id = ?";
+            filas = jdbcTemplate.update(sql,
+                    aviso.getTitulo(),
+                    aviso.getDescripcion(),
+                    aviso.getCategoria(),
+                    aviso.getEstado(),
+                    Sesion.usuarioLogueado.getId(),
+                    id
+            );
+        } else {
+            String sql = "UPDATE aviso SET titulo = ?, descripcion = ?, categoria = ?, usuario_id = ? WHERE id = ?";
+            filas = jdbcTemplate.update(sql,
+                    aviso.getTitulo(),
+                    aviso.getDescripcion(),
+                    aviso.getCategoria(),
+                    Sesion.usuarioLogueado.getId(),
+                    id
+            );
+        }
 
         if (filas > 0) {
-            String nombreUsuario = jdbcTemplate.queryForObject(
-                    "SELECT nombre FROM usuario WHERE id = ?",
-                    new Object[]{aviso.getUsuarioId()},
-                    String.class
-            );
+            // Obtener nombre del usuario logueado
+            String nombreUsuario = Sesion.usuarioLogueado.getNombre();
 
             // Actualizar la notificación vinculada
             String notiSql = "UPDATE notificacion SET mensaje = ? WHERE aviso_id = ?";
             jdbcTemplate.update(notiSql,
                     aviso.getCategoria() + " de " + nombreUsuario + ": " + aviso.getTitulo(),
-                    aviso.getId()
+                    id
             );
         }
 
         return filas;
     }
+
+
 
 
     // Marcar como atendido
